@@ -5,6 +5,34 @@ description: Orchestrates OctoCAT Supply Chain feature development across multip
 
 # Multi-Repo Orchestration
 
+## Prerequisites – GitHub MCP Server
+
+This skill requires the GitHub MCP Server configured on all repos in the ecosystem so Copilot coding agent can create issues and assign itself across repos.
+
+| Step | Action |
+|------|--------|
+| 1 | Go to **Settings → Copilot → Coding agent → MCP configuration** and add the GitHub MCP server JSON config |
+| 2 | Use `https://api.githubcopilot.com/mcp` as the server URL (not `/readonly`) for write access |
+| 3 | Include `issues` in the `X-MCP-Toolsets` header |
+| 4 | Add a GitHub PAT as `COPILOT_MCP_GITHUB_PERSONAL_ACCESS_TOKEN` in each repo's **Copilot environment secrets** |
+| 5 | Instruct the agent in your issue to create issues in target repos and assign Copilot |
+
+**MCP Configuration JSON** (add to each repo):
+```json
+{
+  "mcpServers": {
+    "github": {
+      "url": "https://api.githubcopilot.com/mcp",
+      "headers": {
+        "X-MCP-Toolsets": "issues"
+      }
+    }
+  }
+}
+```
+
+---
+
 When you are assigned an issue in this repository that requires work across multiple codebases, follow this process using tools from the GitHub MCP Server:
 
 ## Step 1: Analyze the Feature Request

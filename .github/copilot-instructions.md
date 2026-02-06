@@ -37,6 +37,43 @@ This repo contains three orchestration skills in `.github/skills/`:
 3. Agents in each repo implement changes and report back via the `report-to-master` skill.
 4. This repo's `cross-repo-pr-linking` skill maintains a live status table on the master issue.
 
+## GitHub MCP Server Setup (Required for Cross-Repo Skills)
+
+The orchestration skills in this repo require the GitHub MCP Server so Copilot coding agent can create issues, assign Copilot, and comment across repos.
+
+### Setup Steps
+
+| Step | Action |
+|------|--------|
+| 1 | Go to **Settings → Copilot → Coding agent → MCP configuration** and add the GitHub MCP server JSON config (see below) |
+| 2 | Use `https://api.githubcopilot.com/mcp` as the server URL (not `/readonly`) for write access |
+| 3 | Include `issues` in the `X-MCP-Toolsets` header so the agent can create and manage issues |
+| 4 | Add a GitHub PAT as `COPILOT_MCP_GITHUB_PERSONAL_ACCESS_TOKEN` in the repo's **Copilot environment secrets** |
+| 5 | Instruct the agent in your issue to create issues in target repos and assign Copilot |
+
+### MCP Configuration JSON
+
+```json
+{
+  "mcpServers": {
+    "github": {
+      "url": "https://api.githubcopilot.com/mcp",
+      "headers": {
+        "X-MCP-Toolsets": "issues"
+      }
+    }
+  }
+}
+```
+
+### PAT Scopes Required
+
+The PAT stored in `COPILOT_MCP_GITHUB_PERSONAL_ACCESS_TOKEN` needs:
+- `repo` — full control of private repositories (or `public_repo` for public-only)
+- `issues:write` — create/update issues across repos
+
+> **Note:** Without this setup, the `multi-repo-orchestration` and `cross-repo-pr-linking` skills will not be able to interact with other repositories.
+
 ## General Guidance
 
 - Prefer incremental, minimal diffs; preserve existing style and naming.
