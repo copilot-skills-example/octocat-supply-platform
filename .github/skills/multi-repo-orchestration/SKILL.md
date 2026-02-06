@@ -14,8 +14,6 @@ When you are assigned an issue in this repository that requires work across mult
 3. Determine which repositories are affected based on the feature scope:
    - **Frontend work** (UI components, pages, routing, Tailwind styling) → `your-org/octocat-supply-web`
    - **API work** (Express routes, repository classes, models, migrations, Swagger docs) → `your-org/octocat-supply-api`
-   - **Shared types/contracts** (TypeScript interfaces, DTOs, utilities) → `your-org/octocat-supply-common`
-
 ## Step 2: Create Linked Issues in Dependent Repos
 
 For each affected repository, use the `create_issue` tool:
@@ -58,14 +56,12 @@ After creating all dependent issues, use the `add_issue_comment` tool to update 
 
 | Repository | Issue | Scope |
 |------------|-------|-------|
-| octocat-supply-common | your-org/octocat-supply-common#XXX | Shared types/contracts |
 | octocat-supply-api | your-org/octocat-supply-api#XXX | Express API endpoints + SQLite migrations |
 | octocat-supply-web | your-org/octocat-supply-web#XXX | React UI components + routes |
 
 ### Recommended Integration Order
-1. ✅ `octocat-supply-common` - Shared TypeScript interfaces (no dependencies)
-2. ⏳ `octocat-supply-api` - Express routes + repository classes (depends on common)
-3. ⏳ `octocat-supply-web` - React components + Tailwind styling (depends on api, common)
+1. ⏳ `octocat-supply-api` - Express routes + repository classes (no dependencies)
+2. ⏳ `octocat-supply-web` - React components + Tailwind styling (depends on api)
 
 ### Tracking
 I will monitor progress and update this issue when PRs are created.

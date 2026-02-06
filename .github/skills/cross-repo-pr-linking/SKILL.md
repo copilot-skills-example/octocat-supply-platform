@@ -1,6 +1,6 @@
 ---
 name: cross-repo-pr-linking
-description: Links pull requests from dependent repositories back to master issues. Use this when checking PR status or when notified about PRs in octocat-supply-web, octocat-supply-api, or octocat-supply-common.
+description: Links pull requests from dependent repositories back to master issues. Use this when checking PR status or when notified about PRs in octocat-supply-web or octocat-supply-api.
 ---
 
 # Cross-Repo PR Linking
@@ -17,7 +17,6 @@ Use the `search_issues` tool with this query:
 Search across all dependent repos:
 - `your-org/octocat-supply-web`
 - `your-org/octocat-supply-api`
-- `your-org/octocat-supply-common`
 
 ## Updating Master Issue
 
@@ -28,7 +27,6 @@ When you find related PRs, use `add_issue_comment` to update the master issue:
 
 | Repository | PR | Status | CI |
 |------------|-----|--------|-----|
-| octocat-supply-common | your-org/octocat-supply-common#XX | ✅ Merged | ✅ Passing |
 | octocat-supply-api | your-org/octocat-supply-api#XX | 🔄 Open | ✅ Passing |
 | octocat-supply-web | your-org/octocat-supply-web#XX | 🔄 Open | ⏳ Running |
 

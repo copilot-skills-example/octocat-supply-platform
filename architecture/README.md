@@ -20,11 +20,6 @@ The OctoCAT Supply Chain Management application is a TypeScript-based system com
 - React Query for server-state cache
 - Context providers for Auth and Theme
 
-### Shared Types (octocat-supply-common)
-- TypeScript interfaces shared between frontend and API
-- Data transfer objects (DTOs)
-- Shared utility functions
-
 ### DevOps Integration
 - Docker / Docker Compose for containerization
 - Bicep + GitHub Actions for Azure Container Apps deployment
@@ -60,20 +55,12 @@ flowchart TD
         B --> R[Repositories]
     end
 
-    subgraph "Shared (octocat-supply-common)"
-        S[TypeScript Interfaces]
-        S --> SD[DTOs]
-        S --> SU[Utilities]
-    end
-
     subgraph "Data"
         D[(SQLite DB)]
     end
 
     R <--SQL queries--> D
     F <--REST API--> B
-    F -.uses.-> S
-    B -.uses.-> S
 ```
 
 ## Key Features

@@ -1,6 +1,6 @@
 # OctoCAT Entity Model
 
-This document describes the domain entities used throughout the OctoCAT Supply Chain application. These entities are shared across the API (`octocat-supply-api`), frontend (`octocat-supply-web`), and common types (`octocat-supply-common`) repositories.
+This document describes the domain entities used throughout the OctoCAT Supply Chain application. These entities are shared across the API (`octocat-supply-api`) and frontend (`octocat-supply-web`) repositories.
 
 ## Entity Relationships
 

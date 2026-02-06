@@ -9,7 +9,6 @@ This is the **master orchestrator** repository for the OctoCAT Supply Chain appl
 | `octocat-supply-platform` | Architecture, specs, infra, orchestration skills (this repo) | Markdown, Bicep, Docker |
 | `octocat-supply-web` | Frontend UI | React 18 · Vite · Tailwind CSS · React Router v7 · React Query |
 | `octocat-supply-api` | REST API | Express.js · SQLite · Repository pattern · Swagger/OpenAPI |
-| `octocat-supply-common` | Shared TypeScript types, DTOs, utility functions | TypeScript |
 
 ## Entity Model
 
@@ -34,7 +33,7 @@ This repo contains three orchestration skills in `.github/skills/`:
 ## Workflow
 
 1. Create a feature issue in this repo and assign to `@copilot`.
-2. Copilot reads the dependency map and spawns issues in `octocat-supply-common`, `octocat-supply-api`, and/or `octocat-supply-web`.
+2. Copilot reads the dependency map and spawns issues in `octocat-supply-api` and/or `octocat-supply-web`.
 3. Agents in each repo implement changes and report back via the `report-to-master` skill.
 4. This repo's `cross-repo-pr-linking` skill maintains a live status table on the master issue.
 

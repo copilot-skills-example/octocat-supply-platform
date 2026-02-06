@@ -7,9 +7,8 @@ Central repository for the **OctoCAT Supply Chain Management** multi-repo system
 | Repo | Purpose |
 |------|---------|
 | **octocat-supply-platform** (this) | Master orchestrator, docs, infra |
-| [octocat-supply-web](https://github.com/octocat-supply/octocat-supply-web) | React + Vite + Tailwind frontend |
-| [octocat-supply-api](https://github.com/octocat-supply/octocat-supply-api) | Express.js REST API (SQLite) |
-| [octocat-supply-common](https://github.com/octocat-supply/octocat-supply-common) | Shared TypeScript types / models |
+| [octocat-supply-web](https://github.com/copilot-skills-example/octocat-supply-web) | React + Vite + Tailwind frontend |
+| [octocat-supply-api](https://github.com/copilot-skills-example/octocat-supply-api) | Express.js REST API (SQLite) |
 
 ## Directory Structure
 
@@ -28,7 +27,7 @@ infra/                 # Bicep templates, container-apps config
 
 | Skill | Trigger |
 |-------|---------|
-| **multi-repo-orchestration** | Issues labelled `feature:cross-repo` — spawns child issues to web/api/common repos |
+| **multi-repo-orchestration** | Issues labelled `feature:cross-repo` — spawns child issues to web/api repos |
 | **cross-repo-pr-linking** | PRs in child repos — ensures master tracking issue is updated |
 | **architecture-context** | Any prompt needing entity model or architecture context |
 
@@ -36,10 +35,9 @@ infra/                 # Bicep templates, container-apps config
 
 ```bash
 # Clone all repos
-gh repo clone octocat-supply/octocat-supply-platform
-gh repo clone octocat-supply/octocat-supply-web
-gh repo clone octocat-supply/octocat-supply-api
-gh repo clone octocat-supply/octocat-supply-common
+gh repo clone copilot-skills-example/octocat-supply-platform
+gh repo clone copilot-skills-example/octocat-supply-web
+gh repo clone copilot-skills-example/octocat-supply-api
 ```
 
 See [docs/build.md](docs/build.md) and [docs/deployment.md](docs/deployment.md) for build & deploy instructions.

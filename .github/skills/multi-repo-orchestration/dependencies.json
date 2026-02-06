@@ -5,20 +5,13 @@
       "repo": "octocat-supply-web",
       "scope": ["ui", "components", "pages", "frontend", "client", "web", "tailwind", "react", "routing"],
       "stack": "React 18+ / Vite / Tailwind CSS / React Router v7 / React Query",
-      "integrationOrder": 3
+      "integrationOrder": 2
     },
     "backend": {
       "owner": "your-org",
       "repo": "octocat-supply-api",
-      "scope": ["api", "endpoints", "database", "backend", "server", "service", "migration", "repository", "swagger"],
+      "scope": ["api", "endpoints", "database", "backend", "server", "service", "migration", "repository", "swagger", "types", "models"],
       "stack": "Express.js / SQLite / Repository pattern / Swagger-OpenAPI",
-      "integrationOrder": 2
-    },
-    "shared": {
-      "owner": "your-org",
-      "repo": "octocat-supply-common",
-      "scope": ["types", "contracts", "utilities", "shared", "common", "models", "dto"],
-      "stack": "TypeScript / shared interfaces",
       "integrationOrder": 1
     }
   },
@@ -27,14 +20,14 @@
     "Delivery", "OrderDetailDelivery", "Headquarters", "Branch"
   ],
   "featureMapping": {
-    "supplier-management": ["shared", "backend", "frontend"],
-    "product-catalog": ["shared", "backend", "frontend"],
-    "order-processing": ["shared", "backend", "frontend"],
-    "delivery-tracking": ["shared", "backend", "frontend"],
-    "branch-management": ["shared", "backend", "frontend"],
-    "headquarters-admin": ["shared", "backend", "frontend"],
-    "api-endpoints": ["shared", "backend"],
-    "ui-components": ["shared", "frontend"],
+    "supplier-management": ["backend", "frontend"],
+    "product-catalog": ["backend", "frontend"],
+    "order-processing": ["backend", "frontend"],
+    "delivery-tracking": ["backend", "frontend"],
+    "branch-management": ["backend", "frontend"],
+    "headquarters-admin": ["backend", "frontend"],
+    "api-endpoints": ["backend"],
+    "ui-components": ["frontend"],
     "database-migration": ["backend"],
     "reporting-dashboard": ["backend", "frontend"]
   }

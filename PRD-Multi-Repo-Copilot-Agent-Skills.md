@@ -31,7 +31,7 @@
 
 ## 1. Executive Summary
 
-This PRD outlines an architecture for orchestrating GitHub Copilot coding agents across multiple dependent repositories using **Agent Skills** with **MCP (Model Context Protocol)** servers for the **OctoCAT Supply Chain Management** application. When a feature issue is created in the master orchestrator repository (`octocat-supply-platform`) and assigned to Copilot, the system automatically spawns related issues in dependent repositories — the React frontend (`octocat-supply-web`), the Express.js API (`octocat-supply-api`), and optionally shared types (`octocat-supply-common`) — assigns Copilot agents to each, and maintains traceability by linking all resulting PRs back to the original master issue.
+This PRD outlines an architecture for orchestrating GitHub Copilot coding agents across multiple dependent repositories using **Agent Skills** with **MCP (Model Context Protocol)** servers for the **OctoCAT Supply Chain Management** application. When a feature issue is created in the master orchestrator repository (`octocat-supply-platform`) and assigned to Copilot, the system automatically spawns related issues in dependent repositories — the React frontend (`octocat-supply-web`) and the Express.js API (`octocat-supply-api`) — assigns Copilot agents to each, and maintains traceability by linking all resulting PRs back to the original master issue.
 
 ### Key Value Proposition
 
@@ -363,16 +363,6 @@ your-org/
 │       └── utils/
 │           ├── errors.ts                  # Custom error classes
 │           └── sql.ts                     # SQL helpers, camelCase mapping
-│
-└── octocat-supply-common/                 # Shared types repo
-    ├── .github/
-    │   ├── copilot-instructions.md
-    │   └── skills/
-    │       └── report-to-master/
-    │           └── SKILL.md
-    └── src/
-        ├── models/                            # Shared entity interfaces
-        │   ├── supplier.ts
         │   ├── product.ts
         │   ├── order.ts
         │   └── ...                            # Mirror of API models
@@ -395,7 +385,7 @@ The master orchestrator repository is the **single source of truth** for archite
 
 **Key responsibilities:**
 
-1. **Issue orchestration** — When a feature issue is assigned to `@copilot`, the `multi-repo-orchestration` skill analyzes the request and spawns child issues in `octocat-supply-common`, `octocat-supply-api`, and/or `octocat-supply-web`.
+1. **Issue orchestration** — When a feature issue is assigned to `@copilot`, the `multi-repo-orchestration` skill analyzes the request and spawns child issues in `octocat-supply-api` and/or `octocat-supply-web`.
 2. **Traceability** — The `cross-repo-pr-linking` skill tracks PRs across repos and maintains a live status table on the master issue.
 3. **Architecture context** — The `architecture-context` skill provides entity-model docs, API contracts, and component specs to Copilot agents working in dependent repos.
 4. **Governance** — Copilot instructions and review guidance files (`.github/instructions/*.instructions.md`) define code-quality, security, and style expectations shared by all repos.
@@ -456,8 +446,6 @@ When you are assigned an issue in this repository that requires work across mult
 3. Determine which repositories are affected based on the feature scope:
    - **Frontend work** (UI components, pages, routing, Tailwind styling) → `your-org/octocat-supply-web`
    - **API work** (Express routes, repository classes, models, migrations, Swagger docs) → `your-org/octocat-supply-api`
-   - **Shared types/contracts** (TypeScript interfaces, DTOs, utilities) → `your-org/octocat-supply-common`
-
 ## Step 2: Create Linked Issues in Dependent Repos
 
 For each affected repository, use the `create_issue` tool:
@@ -500,14 +488,12 @@ After creating all dependent issues, use the `add_issue_comment` tool to update 
 
 | Repository | Issue | Scope |
 |------------|-------|-------|
-| octocat-supply-common | your-org/octocat-supply-common#XXX | Shared types/contracts |
 | octocat-supply-api | your-org/octocat-supply-api#XXX | Express API endpoints + SQLite migrations |
 | octocat-supply-web | your-org/octocat-supply-web#XXX | React UI components + routes |
 
 ### Recommended Integration Order
-1. ✅ `octocat-supply-common` - Shared TypeScript interfaces (no dependencies)
-2. ⏳ `octocat-supply-api` - Express routes + repository classes (depends on common)
-3. ⏳ `octocat-supply-web` - React components + Tailwind styling (depends on api, common)
+1. ⏳ `octocat-supply-api` - Express routes + repository classes (no dependencies)
+2. ⏳ `octocat-supply-web` - React components + Tailwind styling (depends on api)
 
 ### Tracking
 I will monitor progress and update this issue when PRs are created.
@@ -539,27 +525,21 @@ Periodically use `search_issues` to check for PRs that reference this master iss
       "stack": "Express.js / SQLite / Repository pattern / Swagger-OpenAPI",
       "integrationOrder": 2
     },
-    "shared": {
-      "owner": "your-org",
-      "repo": "octocat-supply-common",
-      "scope": ["types", "contracts", "utilities", "shared", "common", "models", "dto"],
-      "stack": "TypeScript / shared interfaces",
-      "integrationOrder": 1
-    }
   },
+  "note": "TypeScript model interfaces are co-located within each repo (api/src/models, frontend types)",
   "entities": [
     "Supplier", "Product", "Order", "OrderDetail",
     "Delivery", "OrderDetailDelivery", "Headquarters", "Branch"
   ],
   "featureMapping": {
-    "supplier-management": ["shared", "backend", "frontend"],
-    "product-catalog": ["shared", "backend", "frontend"],
-    "order-processing": ["shared", "backend", "frontend"],
-    "delivery-tracking": ["shared", "backend", "frontend"],
-    "branch-management": ["shared", "backend", "frontend"],
-    "headquarters-admin": ["shared", "backend", "frontend"],
-    "api-endpoints": ["shared", "backend"],
-    "ui-components": ["shared", "frontend"],
+    "supplier-management": ["backend", "frontend"],
+    "product-catalog": ["backend", "frontend"],
+    "order-processing": ["backend", "frontend"],
+    "delivery-tracking": ["backend", "frontend"],
+    "branch-management": ["backend", "frontend"],
+    "headquarters-admin": ["backend", "frontend"],
+    "api-endpoints": ["backend"],
+    "ui-components": ["frontend"],
     "database-migration": ["backend"],
     "reporting-dashboard": ["backend", "frontend"]
   }
@@ -573,7 +553,7 @@ Periodically use `search_issues` to check for PRs that reference this master iss
 ```markdown
 ---
 name: cross-repo-pr-linking
-description: Links pull requests from dependent repositories back to master issues. Use this when checking PR status or when notified about PRs in octocat-supply-web, octocat-supply-api, or octocat-supply-common.
+description: Links pull requests from dependent repositories back to master issues. Use this when checking PR status or when notified about PRs in octocat-supply-web or octocat-supply-api.
 ---
 
 # Cross-Repo PR Linking
@@ -590,7 +570,6 @@ Use the `search_issues` tool with this query:
 Search across all dependent repos:
 - `your-org/octocat-supply-web`
 - `your-org/octocat-supply-api`
-- `your-org/octocat-supply-common`
 
 ## Updating Master Issue
 
@@ -601,7 +580,6 @@ When you find related PRs, use `add_issue_comment` to update the master issue:
 
 | Repository | PR | Status | CI |
 |------------|-----|--------|-----|
-| octocat-supply-common | your-org/octocat-supply-common#XX | ✅ Merged | ✅ Passing |
 | octocat-supply-api | your-org/octocat-supply-api#XX | 🔄 Open | ✅ Passing |
 | octocat-supply-web | your-org/octocat-supply-web#XX | 🔄 Open | ⏳ Running |
 
@@ -669,7 +647,7 @@ This ensures Copilot agents in dependent repos have the context they need withou
 
 ### 8.5 Report to Master Skill (Dependent Repos)
 
-**Location:** `octocat-supply-web/.github/skills/report-to-master/SKILL.md` (same for octocat-supply-api, octocat-supply-common)
+**Location:** `octocat-supply-web/.github/skills/report-to-master/SKILL.md` (same for octocat-supply-api)
 
 ```markdown
 ---
@@ -744,7 +722,7 @@ When your PR is merged, update the master issue:
 
 ### 8.6 Dependent Repos Custom Instructions
 
-**Location:** `octocat-supply-web/.github/copilot-instructions.md` (similar for octocat-supply-api, octocat-supply-common)
+**Location:** `octocat-supply-web/.github/copilot-instructions.md` (similar for octocat-supply-api)
 
 ```markdown
 # OctoCAT Supply Chain – Frontend Repository Instructions
@@ -855,41 +833,37 @@ For architecture context, refer to:
 | 2 | Assign issue to `@copilot` | Human | - | - |
 | 3 | Analyze feature requirements | Copilot | `multi-repo-orchestration` | `get_file_contents` |
 | 4 | Read dependency map | Copilot | `multi-repo-orchestration` | `get_file_contents` |
-| 5 | Create issue in `octocat-supply-common` | Copilot | `multi-repo-orchestration` | `create_issue` |
-| 6 | Create issue in `octocat-supply-api` | Copilot | `multi-repo-orchestration` | `create_issue` |
-| 7 | Create issue in `octocat-supply-web` | Copilot | `multi-repo-orchestration` | `create_issue` |
-| 8 | Update master issue with tracking table | Copilot | `multi-repo-orchestration` | `add_issue_comment` |
-| 9 | Copilot agent activates in `octocat-supply-common` | Copilot | - | - |
-| 10 | Fetch architecture context | Copilot | `report-to-master` | `get_file_contents` |
-| 11 | Implement shared types | Copilot | - | - |
-| 12 | Create PR in `octocat-supply-common` | Copilot | `report-to-master` | `create_pull_request` |
-| 13 | Notify master issue | Copilot | `report-to-master` | `add_issue_comment` |
-| 14 | (Repeat 9–13 for `octocat-supply-api`: Express routes, repos, migrations) | Copilot | `report-to-master` | Various |
-| 15 | (Repeat 9–13 for `octocat-supply-web`: React components, Tailwind UI) | Copilot | `report-to-master` | Various |
-| 16 | Check all PR statuses | Copilot | `cross-repo-pr-linking` | `search_issues` |
-| 17 | Update master issue with final status | Copilot | `cross-repo-pr-linking` | `add_issue_comment` |
-| 18 | Human reviews all PRs | Human | - | - |
+| 5 | Create issue in `octocat-supply-api` | Copilot | `multi-repo-orchestration` | `create_issue` |
+| 6 | Create issue in `octocat-supply-web` | Copilot | `multi-repo-orchestration` | `create_issue` |
+| 7 | Update master issue with tracking table | Copilot | `multi-repo-orchestration` | `add_issue_comment` |
+| 8 | Copilot agent activates in `octocat-supply-api` | Copilot | - | - |
+| 9 | Fetch architecture context | Copilot | `report-to-master` | `get_file_contents` |
+| 10 | Implement API routes, repos, migrations | Copilot | - | - |
+| 11 | Create PR in `octocat-supply-api` | Copilot | `report-to-master` | `create_pull_request` |
+| 12 | Notify master issue | Copilot | `report-to-master` | `add_issue_comment` |
+| 13 | (Repeat 8–12 for `octocat-supply-web`: React components, Tailwind UI) | Copilot | `report-to-master` | Various |
+| 14 | Check all PR statuses | Copilot | `cross-repo-pr-linking` | `search_issues` |
+| 15 | Update master issue with final status | Copilot | `cross-repo-pr-linking` | `add_issue_comment` |
+| 16 | Human reviews all PRs | Human | - | - |
 
 ### Sequence Diagram
 
 ```
-Human          Master Repo              supply-common     supply-api       supply-web
-  │                 │                          │               │                │
-  │──Create Issue──▶│                          │               │                │
-  │──Assign @copilot▶│                         │               │                │
-  │                 │                          │               │                │
-  │                 │──Create Issue (types)────▶│               │                │
-  │                 │──Create Issue (API)──────────────────────▶│                │
-  │                 │──Create Issue (React UI)─────────────────────────────────▶│
-  │                 │                          │               │                │
-  │                 │◀──PR Created─────────────│               │                │
-  │                 │◀──PR Created (Express)───────────────────│                │
-  │                 │◀──PR Created (React)─────────────────────────────────────│
-  │                 │                          │               │                │
-  │◀──PR Links──────│                          │               │                │
-  │                 │                          │               │                │
-  │──Review PRs────▶│                          │               │                │
-  │                 │                          │               │                │
+Human          Master Repo              supply-api       supply-web
+  │                 │                          │                │
+  │──Create Issue──▶│                          │                │
+  │──Assign @copilot▶│                         │                │
+  │                 │                          │                │
+  │                 │──Create Issue (API)──────▶│                │
+  │                 │──Create Issue (React UI)─────────────────▶│
+  │                 │                          │                │
+  │                 │◀──PR Created (Express)───│                │
+  │                 │◀──PR Created (React)─────────────────────│
+  │                 │                          │                │
+  │◀──PR Links──────│                          │                │
+  │                 │                          │                │
+  │──Review PRs────▶│                          │                │
+  │                 │                          │                │
 ```
 
 ---
@@ -929,9 +903,6 @@ mkdir -p octocat-supply-api/.github/skills/api-endpoint
 mkdir -p octocat-supply-api/.github/instructions
 # Add SKILL.md, copilot-instructions.md, api.instructions.md, database.instructions.md
 
-# Shared types repo
-mkdir -p octocat-supply-common/.github/skills/report-to-master
-# Add SKILL.md, copilot-instructions.md
 ```
 
 ### Step 4: Update dependencies.json
@@ -1040,8 +1011,7 @@ Monitor these GitHub metrics:
 | **Master Repo** | `octocat-supply-platform` — holds architecture specs, docs, infra, and orchestration skills |
 | **Frontend Repo** | `octocat-supply-web` — React 18 + Vite + Tailwind CSS single-page application |
 | **API Repo** | `octocat-supply-api` — Express.js + SQLite REST API with repository pattern |
-| **Shared Repo** | `octocat-supply-common` — shared TypeScript interfaces, DTOs, and utilities |
-| **Dependent Repo** | A repository containing implementation code (frontend / API / shared) |
+| **Dependent Repo** | A repository containing implementation code (frontend / API) |
 | **Spawned Issue** | An issue created by Copilot in a dependent repo |
 | **Entity** | A domain object in the OctoCAT model (Supplier, Product, Order, etc.) |
 
@@ -1063,5 +1033,6 @@ Monitor these GitHub metrics:
 |---------|------|---------|
 | 1.0 | 2026-02-05 | Initial PRD |
 | 2.0 | 2026-02-06 | Updated to OctoCAT Supply Chain repos (`octocat-supply-platform`, `octocat-supply-web`, `octocat-supply-api`, `octocat-supply-common`). Added concrete frontend (React + Vite + Tailwind) and API (Express + SQLite) details. Added master orchestrator repo with architecture, docs, and infra. Added entity model, per-repo custom instructions, and supply-chain–specific feature mappings. |
+| 2.1 | 2026-02-06 | Removed `octocat-supply-common` repo. TypeScript model interfaces are now co-located within each repo (`api/src/models/`). Simplified to 3-repo architecture: platform, web, api. |
 
 ---
