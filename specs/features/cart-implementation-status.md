@@ -45,11 +45,11 @@
 
 ---
 
-## ✅ Assignment Complete
+## ✅ Assignment Complete - Copilot Working
 
-**Both issues have been successfully assigned to @abhi-singhs**
+**Both issues have been successfully assigned to @copilot using the `assign_copilot_to_issue` tool**
 
-The "Copilot" bot account is not available as a collaborator in the child repositories, so the issues were assigned to the repository owner/maintainer instead. This ensures proper notification and tracking.
+The Copilot agent is now working on both issues. Pull requests are pending and will be created automatically once the implementation is complete. The issues can be monitored via their timelines for updates.
 
 ---
 
@@ -58,15 +58,15 @@ The "Copilot" bot account is not available as a collaborator in the child reposi
 ### Backend API Issue
 **Repository:** copilot-skills-example/octocat-supply-api  
 **Issue:** [#1 - Implement Cart Order Creation API](https://github.com/copilot-skills-example/octocat-supply-api/issues/1)  
-**Status:** ⏳ Open - Awaiting Implementation  
-**Assignee:** ✅ @abhi-singhs (assigned successfully)  
+**Status:** ✅ Assigned to Copilot - PR pending  
+**Assignee:** ✅ @copilot (assigned via assign_copilot_to_issue tool)  
 **Scope:** POST /api/orders endpoint with transaction-based order creation
 
 ### Frontend Issue
 **Repository:** copilot-skills-example/octocat-supply-web  
 **Issue:** [#1 - Implement Cart Page and Shopping Flow](https://github.com/copilot-skills-example/octocat-supply-web/issues/1)  
-**Status:** ⏳ Open - Awaiting Implementation  
-**Assignee:** ✅ @abhi-singhs (assigned successfully)  
+**Status:** ✅ Assigned to Copilot - PR pending  
+**Assignee:** ✅ @copilot (assigned via assign_copilot_to_issue tool)  
 **Scope:** CartContext, Cart page, Navigation updates, Product page integration
 
 ## ⏳ Next Steps
