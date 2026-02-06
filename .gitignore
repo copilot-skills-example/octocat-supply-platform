@@ -1,0 +1,29 @@
+# Node.js
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# TypeScript
+*.tsbuildinfo
+
+# dotenv environment variables file
+.env
+
+# IDE specific files
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# MacOS specific files
+.DS_Store
+
+# Linux specific files
+*~
+
+dist/
+coverage/
+tmp
