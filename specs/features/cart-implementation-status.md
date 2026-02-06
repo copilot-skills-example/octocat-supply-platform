@@ -45,20 +45,36 @@
 
 ---
 
+## ⚠️ Manual Action Required
+
+**Issue Assignment:** Due to access token limitations, the created issues need to be manually assigned to @copilot:
+
+1. **Backend API Issue:** 
+   - Go to https://github.com/copilot-skills-example/octocat-supply-api/issues/1
+   - Click "Assignees" on the right sidebar
+   - Add `@copilot` as assignee
+
+2. **Frontend Issue:**
+   - Go to https://github.com/copilot-skills-example/octocat-supply-web/issues/1
+   - Click "Assignees" on the right sidebar
+   - Add `@copilot` as assignee
+
+---
+
 ## 🎯 Child Issues Created
 
 ### Backend API Issue
 **Repository:** copilot-skills-example/octocat-supply-api  
 **Issue:** [#1 - Implement Cart Order Creation API](https://github.com/copilot-skills-example/octocat-supply-api/issues/1)  
 **Status:** ⏳ Open - Awaiting Implementation  
-**Assignee:** @copilot  
+**Assignee:** ⚠️ **NEEDS ASSIGNMENT** - Please assign to @copilot manually  
 **Scope:** POST /api/orders endpoint with transaction-based order creation
 
 ### Frontend Issue
 **Repository:** copilot-skills-example/octocat-supply-web  
 **Issue:** [#1 - Implement Cart Page and Shopping Flow](https://github.com/copilot-skills-example/octocat-supply-web/issues/1)  
 **Status:** ⏳ Open - Awaiting Implementation  
-**Assignee:** @copilot  
+**Assignee:** ⚠️ **NEEDS ASSIGNMENT** - Please assign to @copilot manually  
 **Scope:** CartContext, Cart page, Navigation updates, Product page integration
 
 ## ⏳ Next Steps
