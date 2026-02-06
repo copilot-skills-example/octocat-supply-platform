@@ -14,6 +14,16 @@ Shopping cart functionality spanning frontend and backend:
   - `cart-orchestration-plan.md` - Multi-repo coordination and integration flow
   - `cart-issue-templates.md` - Ready-to-use issue descriptions for dependent repos
 
+### Search Auto-Complete (`search-autocomplete-*.md`)
+Real-time search suggestions with keyboard navigation spanning frontend and backend:
+- **Repositories:** octocat-supply-api, octocat-supply-web
+- **Status:** Specification complete, ready for orchestration
+- **Parent Issue:** copilot-skills-example/octocat-supply-platform (current issue)
+- **Files:**
+  - `search-autocomplete-page.md` - Technical specification with API and UI requirements
+  - `search-autocomplete-orchestration-plan.md` - Multi-repo coordination and integration flow
+  - `search-autocomplete-issue-templates.md` - Ready-to-use issue descriptions for dependent repos
+
 ## How to Add a Feature Spec
 
 1. Create a new markdown file: `<feature-name>.md`
